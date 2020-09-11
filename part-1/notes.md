@@ -20,7 +20,7 @@ banking, e commerce and what not.
 There are a lot of existing machine learning algorithms available in the scikit learn library which we are going to see
 in the future. Some of these are linear regression, logistic regression, K nearest neighbours and etc.
 - Model - Model is the entity which is stored/saved using which we actually make predictions.
-Model consists of model data and the prediction algorithm. Model Data are generally the values which are 
+Model consists of model data and the prediction algorithm. Model data generally consists of the values which are 
 learned after the algorithm is made to run on the data. Later on, prediction is made using the model data and 
 the prediction algorithm.
 
