@@ -38,7 +38,3 @@ After going through the above read, now we can say that there is an involvement 
 All the topics that we would be covering in the initial parts of this repo would look like isolated dots, but once we 
 start diving into the code and specific algorithms, these topics would start making more sense and the isolated dots
 would start connecting.
-
-
-
- 
