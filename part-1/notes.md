@@ -27,7 +27,17 @@ the prediction algorithm.
 For better understanding of the difference between a machine learning algorithm and a model, I recommend going through 
 this 15 minutes read by Jason Brownlee.
 
-[Machine Learning Algorithm vs Machine Learning Model](https://machinelearningmastery.com/difference-between-algorithm-and-model-in-machine-learning/)
+[Machine Learning Algorithms vs Machine Learning Models](https://machinelearningmastery.com/difference-between-algorithm-and-model-in-machine-learning/)
+
+
+After going through the above read, now we can say that there is an involvement of 2 algorithms in the .
+
+- The first being the one to which the data is fed and this is the actual **Machine Learning Algorithm**.
+- The second one being the prediction algorithm which uses the model data to predict the results.
+
+All the topics that we would be covering in the initial parts of this repo would look like isolated dots, but once we 
+start diving into the code and specific algorithms, these topics would start making more sense and the isolated dots
+would start connecting.
 
 
 
