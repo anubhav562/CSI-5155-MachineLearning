@@ -1,4 +1,4 @@
-##Evaluation Metrics for Binary classification
+## Evaluation Metrics for Binary classification
 
 Hello everyone, thanks for dropping in if you are following along with me.
 
