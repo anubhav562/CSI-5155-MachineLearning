@@ -62,11 +62,23 @@ def self_implemented_roc_curve(y_test_labels, y_test_prediction_probabilities):
     probability_sorted_indices = list(y_test_prediction_probabilities.argsort())
     y_test_labels = list(y_test_labels[probability_sorted_indices])
 
-    cumulative_sum_positive_class = [y_test_labels[:i].count(1) for i in range(1, len(y_test_labels)+1)]
-    cumulative_sum_negative_class = [y_test_labels[:i].count(0) for i in range(1, len(y_test_labels)+1)]
+    positive_class_instances = y_test_labels.count(1)
+    negative_class_instances = y_test_labels.count(0)
+    no_of_instances = positive_class_instances + negative_class_instances
 
-    true_positive_rate_list = [a/sum(y_test_labels) for a in cumulative_sum_positive_class]
-    false_positive_rate_list = [a / (len(y_test_labels) - sum(y_test_labels)) for a in cumulative_sum_negative_class]
+    positive_class_cumulative_sum_list = [1] if y_test_labels[0] == 1 else [0]
+    negative_class_cumulative_sum_list = [1] if y_test_labels[0] == 0 else [0]
+
+    for i in range(1, no_of_instances):
+        if y_test_labels[i] == 1:
+            positive_class_cumulative_sum_list.append(positive_class_cumulative_sum_list[i-1] + 1)
+            negative_class_cumulative_sum_list.append(negative_class_cumulative_sum_list[i-1])
+        elif y_test_labels[i] == 0:
+            positive_class_cumulative_sum_list.append(positive_class_cumulative_sum_list[i - 1])
+            negative_class_cumulative_sum_list.append(negative_class_cumulative_sum_list[i - 1] + 1)
+
+    true_positive_rate_list = [cumsum/positive_class_instances for cumsum in positive_class_cumulative_sum_list]
+    false_positive_rate_list = [cumsum/negative_class_instances for cumsum in negative_class_cumulative_sum_list]
 
     return false_positive_rate_list, true_positive_rate_list
 
