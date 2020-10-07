@@ -40,3 +40,20 @@ model?
 2. Most of the standard machine learning algorithms are based on averaging the performance
 metrics over various classes. But, in this case, our area of interest in a subset of target
 variables which have rarely occurred. So how do we evaluate that how are we doing?
+
+
+### Evaluation metrics:
+
+The evaluation metrics in standard machine learning are generally accuracy or error rate.
+It should be noted that these metrics are in terms of both the classes (minority as well as
+majority). So if we have a model which is doing good only on the majority class will have a 
+good accuracy.
+
+For imbalanced domain learning we have the following metrics:
+
+- Precision (TP/TP+FP)
+- Recall (TP/TP+FN) (also called sensitivity)
+- Geometric Mean (sqrt(sensitivity*specificity))
+- F beta scores -> these can be F1, F2, F0.5 scores depending upon the beta we provide
+- ROC curve
+- Precision Recall Curve.
