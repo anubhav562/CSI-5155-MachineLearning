@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 
 
@@ -11,34 +12,53 @@ class TreeNode:
 
 
 class DecisionTree:
-    def __init__(self):
+    def __init__(self, criterion="gini"):
         self.target_variable = None
         self.split_condition_bucket = {}
+        self.criterion = criterion
+        self.criterion_to_method_mapping = {
+            "gini": self._calculate_gini_index,
+            "entropy": self._calculate_entropy
+        }
 
     def _calculate_gini_index(self, dataset):
         class_values = list(dataset[self.target_variable].unique())
         p_square_summation = 0
 
         for class_value in class_values:
-            p_square_summation += (len(dataset[dataset[self.target_variable]==class_value])/len(dataset))**2
+            p_square_summation += (len(dataset[dataset[self.target_variable] == class_value])/len(dataset))**2
 
         gini_index = 1 - p_square_summation
 
         return gini_index
 
-    def _calculate_gini_index_for_split_test(self, dataset, feature, feature_value):
+    def _calculate_entropy(self, dataset):
+        class_values = list(dataset[self.target_variable].unique())
+        p_log_p_summation = 0
+
+        for class_value in class_values:
+            p = (len(dataset[dataset[self.target_variable] == class_value])/len(dataset))
+            p_log_p_summation += p*math.log2(p)
+
+        entropy = -1*p_log_p_summation
+
+        return entropy
+
+    def _calculate_impurity_for_split_test(self, dataset, feature, feature_value):
         d_t = dataset[dataset[feature] == feature_value]
         d_not_t = dataset[dataset[feature] != feature_value]
 
         d_t_proportion = len(d_t)/len(dataset)
         d_not_t_proportion = 1 - d_t_proportion
 
-        gini_d_t = self._calculate_gini_index(dataset=d_t)
-        gini_d_not_t = self._calculate_gini_index(dataset=d_not_t)
+        criterion_method_to_call = self.criterion_to_method_mapping[self.criterion]
 
-        gini_index_for_split = d_t_proportion*gini_d_t + d_not_t_proportion*gini_d_not_t
+        impurity_d_t = criterion_method_to_call(dataset=d_t)
+        impurity_d_not_t = criterion_method_to_call(dataset=d_not_t)
 
-        return gini_index_for_split
+        impurity_for_split = d_t_proportion*impurity_d_t + d_not_t_proportion*impurity_d_not_t
+
+        return impurity_for_split
 
     def _is_dataset_homogeneous(self, dataset):
         return True if len(dataset[self.target_variable].unique()) == 1 else False
@@ -69,7 +89,7 @@ class DecisionTree:
                 if self.split_condition_bucket.get(f"{feature}={category}"):
                     continue
 
-                gini_for_split = self._calculate_gini_index_for_split_test(dataset, feature, category)
+                gini_for_split = self._calculate_impurity_for_split_test(dataset, feature, category)
 
                 if gini_index > gini_for_split:
                     gini_index = gini_for_split
@@ -115,5 +135,5 @@ class DecisionTree:
 
 df = pd.read_csv("weather.csv")
 
-dt = DecisionTree()
+dt = DecisionTree(criterion="entropy")
 root_node = dt.grow_tree(df, features=["Weather", "Humidity"], target_variable="Decision")
