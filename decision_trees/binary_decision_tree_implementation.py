@@ -74,7 +74,7 @@ class DecisionTree:
         return False
 
     def _find_best_split_and_divide_data(self, dataset, features, t_node):
-        gini_index = 1
+        impurity_value = 1
         feature_to_split_on = None
         category_to_split_on = None
 
@@ -89,10 +89,10 @@ class DecisionTree:
                 if self.split_condition_bucket.get(f"{feature}={category}"):
                     continue
 
-                gini_for_split = self._calculate_impurity_for_split_test(dataset, feature, category)
+                impurity_for_split = self._calculate_impurity_for_split_test(dataset, feature, category)
 
-                if gini_index > gini_for_split:
-                    gini_index = gini_for_split
+                if impurity_value > impurity_for_split:
+                    impurity_value = impurity_for_split
                     feature_to_split_on = feature
                     category_to_split_on = category
 
